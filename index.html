@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoFar Travel Booking Hub</title>
+    <style>
+        /* --- CSS STYLING --- */
+        :root {
+            --primary: #1a73e8;
+            --primary-hover: #1557b0;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #202124;
+            --danger: #d93025;
+            --success: #188038;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding-bottom: 60px;
+        }
+
+        /* Step 3: Flexbox Navigation Header */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #dadce0;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            color: #5f6368;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Main Container */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        section {
+            margin-bottom: 3.5rem;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Step 3: CSS Grid for Booking Categories */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: var(--card-bg);
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 8px 0 rgba(60,64,67,0.3);
+        }
+
+        .icon-placeholder {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .select-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 1rem;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .select-btn:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Step 1 & 2: Form Container Styling */
+        .form-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #dadce0;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        /* Flex adjustments for form fields inside a row */
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #5f6368;
+        }
+
+        .form-group input, .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+        }
+
+        .book-btn {
+            background-color: #e8f0fe;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            width: 100%;
+            padding: 0.85rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .book-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Error/Success elements */
+        .error-message {
+            color: var(--danger);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+        .alert-success {
+            color: var(--success);
+            background-color: #e6f4ea;
+        }
+
+        /* Step 4: Dynamic Dynamic Summary Section */
+        .summary-container {
+            background: var(--card-bg);
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .summary-list {
+            list-style: none;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #dadce0;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .cancel-btn {
+            background-color: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .cancel-btn:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        /* Responsive Breakpoint handling for the Form layout rows */
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 1.25rem;
+                margin-bottom: 0;
+            }
+            .form-group {
+                margin-bottom: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">✈️ GoFar</a>
+            <ul class="nav-links">
+                <li><a href="#categories">Services</a></li>
+                <li><a href="#booking-form-section">Reserve</a></li>
+                <li><a href="#itinerary-section">My Bookings</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="categories">
+            <h2>Select Transport System</h2>
+            <div class="grid-container">
+                <div class="category-card">
+                    <div class="icon-placeholder">🚖</div>
+                    <h3>Cab Booking</h3>
+                    <p>On-demand city rides</p>
+                    <button class="select-btn" onclick="setTransport('Cab')">Select Cab</button>
+                </div>
+                <div class="category-card">
+                    <div class="icon-placeholder">🚌</div>
+                    <h3>Bus Booking</h3>
+                    <p>Intercity budget travel</p>
+                    <button class="select-btn" onclick="setTransport('Bus')">Select Bus</button>
+                </div>
+                <div class="category-card">
+                    <div class="icon-placeholder">🚂</div>
+                    <h3>Train Booking</h3>
+                    <p>Express regional journeys</p>
+                    <button class="select-btn" onclick="setTransport('Train')">Select Train</button>
+                </div>
+                <div class="category-card">
+                    <div class="icon-placeholder">✈️</div>
+                    <h3>Flight Booking</h3>
+                    <p>Domestic & Global flights</p>
+                    <button class="select-btn" onclick="setTransport('Flight')">Select Flight</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="booking-form-section">
+            <h2>Reservation Details</h2>
+            <div class="form-container">
+                <div id="formAlert" class="alert alert-success"></div>
+
+                <form id="bookingForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transportType">Service Selected</label>
+                            <select id="transportType">
+                                <option value="">-- Choose Mode --</option>
+                                <option value="Cab">Cab</option>
+                                <option value="Bus">Bus</option>
+                                <option value="Train">Train</option>
+                                <option value="Flight">Flight</option>
+                            </select>
+                            <div id="typeError" class="error-message">Please select your method of travel.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="passengerEmail">Contact Email</label>
+                            <input type="email" id="passengerEmail" placeholder="yourname@domain.com">
+                            <div id="emailError" class="error-message">Enter a valid email structure.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="origin">From (Origin)</label>
+                            <input type="text" id="origin" placeholder="City or Station">
+                            <div id="originError" class="error-message">Origin point is mandatory.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">To (Destination)</label>
+                            <input type="text" id="destination" placeholder="City or Airport">
+                            <div id="destinationError" class="error-message">Destination point is mandatory.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="travelDate">Date of Travel</label>
+                            <input type="date" id="travelDate">
+                            <div id="dateError" class="error-message">Please choose a valid date.</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="book-btn">Confirm Ticket Reservation</button>
+                </form>
+            </div>
+        </section>
+
+        <section id="itinerary-section">
+            <h2>Active Active Itineraries</h2>
+            <div class="summary-container">
+                <ul id="itineraryList" class="summary-list">
+                    <li id="noBookingMessage" style="color: #5f6368; text-align: center; padding: 1rem;">No current tickets generated yet. Use the selector engine above to book.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const activeBookings = [];
+        const itineraryList = document.getElementById('itineraryList');
+        const noBookingMessage = document.getElementById('noBookingMessage');
+
+        // Helper function for UI flow to instantly alter form select state
+        function setTransport(mode) {
+            document.getElementById('transportType').value = mode;
+            // Scroll down cleanly to configuration window
+            document.getElementById('booking-form-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // =========================================================
+        // STEP 2: FORM FIELD ACCURACY VALIDATION ENGINE
+        // =========================================================
+        document.getElementById('bookingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Extract Elements
+            const typeField = document.getElementById('transportType');
+            const emailField = document.getElementById('passengerEmail');
+            const originField = document.getElementById('origin');
+            const destField = document.getElementById('destination');
+            const dateField = document.getElementById('travelDate');
+
+            // Error Elements
+            const typeError = document.getElementById('typeError');
+            const emailError = document.getElementById('emailError');
+            const originError = document.getElementById('originError');
+            const destError = document.getElementById('destError');
+            const dateError = document.getElementById('dateError');
+            const formAlert = document.getElementById('formAlert');
+
+            let formStateValid = true;
+
+            // 1. Travel Type check
+            if (!typeField.value) {
+                typeError.style.display = "block";
+                formStateValid = false;
+            } else { typeError.style.display = "none"; }
+
+            // 2. Email Pattern validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailField.value.trim())) {
+                emailError.style.display = "block";
+                formStateValid = false;
+            } else { emailError.style.display = "none"; }
+
+            // 3. String length matching values
+            if (originField.value.trim().length < 2) {
+                document.getElementById('originError').style.display = "block";
+                formStateValid = false;
+            } else { document.getElementById('originError').style.display = "none"; }
+
+            if (destField.value.trim().length < 2) {
+                document.getElementById('destinationError').style.display = "block";
+                formStateValid = false;
+            } else { document.getElementById('destinationError').style.display = "none"; }
+
+            // 4. Time selection assessment
+            if (!dateField.value) {
+                dateError.style.display = "block";
+                formStateValid = false;
+            } else { dateError.style.display = "none"; }
+
+            // Dynamic updates executing successfully 
+            if (formStateValid) {
+                const uniqueId = 'TKT-' + Math.floor(100000 + Math.random() * 900000);
+                
+                // Pack valid fields into structure
+                const reservationObj = {
+                    id: uniqueId,
+                    type: typeField.value,
+                    route: `${originField.value.trim()} ➡️ ${destField.value.trim()}`,
+                    date: dateField.value
+                };
+
+                // Forward object storage reference
+                activeBookings.push(reservationObj);
+                updateItineraryDisplay();
+
+                // Clear input structures safely
+                formAlert.innerText = `Success! ${reservationObj.type} ticket assigned under code ${uniqueId}`;
+                formAlert.style.display = "block";
+                this.reset();
+                
+                setTimeout(() => { formAlert.style.display = "none"; }, 5000);
+            }
+        });
+
+        // =========================================================
+        // STEP 4: DYNAMIC DOM ACTIONS (ADD/REMOVE COMPONENT)
+        // =========================================================
+        function deleteTicket(ticketId) {
+            const index = activeBookings.findIndex(ticket => ticket.id === ticketId);
+            if (index > -1) {
+                activeBookings.splice(index, 1);
+            }
+            updateItineraryDisplay();
+        }
+
+        function updateItineraryDisplay() {
+            itineraryList.innerHTML = '';
+
+            if (activeBookings.length === 0) {
+                itineraryList.appendChild(noBookingMessage);
+                return;
+            }
+
+            // Iterate across stored inputs and generate elements inside list context tree
+            activeBookings.forEach(ticket => {
+                let badgeEmoji = "🚖";
+                if(ticket.type === "Bus") badgeEmoji = "🚌";
+                if(ticket.type === "Train") badgeEmoji = "🚂";
+                if(ticket.type === "Flight") badgeEmoji = "✈️";
+
+                const li = document.createElement('li');
+                li.className = 'summary-item';
+                li.innerHTML = `
+                    <div>
+                        <strong>${badgeEmoji} ${ticket.type} (${ticket.id})</strong><br>
+                        <span style="color: #5f6368; font-size: 0.95rem;">Route: ${ticket.route} | Date: ${ticket.date}</span>
+                    </div>
+                    <button class="cancel-btn" onclick="deleteTicket('${ticket.id}')">Cancel Ticket</button>
+                `;
+                itineraryList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

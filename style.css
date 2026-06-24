@@ -1,0 +1,266 @@
+/* --- CSS VARIABLE DEFINITIONS (For Consistent Colors) --- */
+:root {
+    --primary: #1a73e8;         /* Google blue style for primary branding */
+    --primary-hover: #1557b0;   /* Slightly darker blue for button hover effects */
+    --bg: #f8f9fa;              /* Light background color for the page body */
+    --card-bg: #ffffff;         /* Pure white background for content containers */
+    --text: #202124;            /* Dark gray color for high text readability */
+    --danger: #d93025;          /* Red color reserved for error alerts */
+    --success: #188038;         /* Green color reserved for successful booking alerts */
+}
+
+/* --- GLOBAL SETTINGS --- */
+* {
+    box-sizing: border-box;     /* Ensures padding doesn't accidentally increase element width */
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding-bottom: 60px;
+}
+
+/* =========================================================================
+   STEP 3 REQUIREMENT: FLEXBOX NAVIGATION HEADER
+   ========================================================================= */
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dadce0;
+    padding: 1rem 2rem;
+    position: sticky;           /* Keeps navigation fixed at top while scrolling */
+    top: 0;
+    z-index: 100;
+}
+
+.navbar {
+    display: flex;              /* Activates Flexbox context */
+    justify-content: space-between; /* Pushes Logo to left, Nav links to right */
+    align-items: center;        /* Centers items vertically */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-links {
+    display: flex;              /* Aligns individual list items in a row */
+    list-style: none;
+    gap: 24px;                  /* Creates uniform spacing between links */
+}
+
+.nav-links a {
+    color: #5f6368;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;     /* Smoothly shifts color on hover */
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+/* --- MAIN CONTAINER STRUCTURE --- */
+main {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+section {
+    margin-bottom: 3.5rem;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* =========================================================================
+   STEP 3 REQUIREMENT: CSS GRID FOR TRANSPORT SELECTION
+   ========================================================================= */
+.grid-container {
+    display: grid;              /* Activates CSS Grid context */
+    /* Automatically creates columns that wrap to a new line when thin */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;                /* Sets equal grid spacing between cards */
+}
+
+.category-card {
+    background: var(--card-bg);
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card:hover {
+    transform: translateY(-4px); /* Slight lift animation on mouse hover */
+    box-shadow: 0 4px 8px 0 rgba(60,64,67,0.3);
+}
+
+.icon-placeholder {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+}
+
+.select-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 1rem;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.select-btn:hover {
+    background-color: var(--primary-hover);
+}
+
+/* =========================================================================
+   STEP 1 REQUIREMENT: FORM LAYOUT STYLING
+   ========================================================================= */
+.form-container {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #dadce0;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.form-row {
+    display: flex;              /* Arranges two input blocks side-by-side */
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.form-group {
+    flex: 1;                    /* Forces each field to grow equally in the row */
+    display: flex;
+    flex-direction: column;     /* Places the label vertically above the input box */
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #5f6368;
+}
+
+.form-group input, .form-group select {
+    padding: 0.75rem;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+}
+
+/* Highlights input fields when clicking inside them */
+.form-group input:focus, .form-group select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.2);
+}
+
+.book-btn {
+    background-color: #e8f0fe;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.book-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+/* --- STEP 2 LOGIC: ERROR & SUCCESS STATES --- */
+.error-message {
+    color: var(--danger);
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: none;              /* Hidden by default, JavaScript changes this to block */
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    display: none;              /* Hidden until validation passes */
+    text-align: center;
+    font-weight: 500;
+}
+.alert-success {
+    color: var(--success);
+    background-color: #e6f4ea;
+}
+
+/* =========================================================================
+   STEP 4 REQUIREMENT: DYNAMIC ITINERARY SUMMARY STYLING
+   ========================================================================= */
+.summary-container {
+    background: var(--card-bg);
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.summary-list {
+    list-style: none;
+}
+
+.summary-item {
+    display: flex;              /* Flex layout for dynamic ticket entries */
+    justify-content: space-between; /* Pushes ticket info to left, Cancel button to right */
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #dadce0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.cancel-btn {
+    background-color: transparent;
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+
+.cancel-btn:hover {
+    background-color: var(--danger);
+    color: white;
+}
+
+/* =========================================================================
+   STEP 3 REQUIREMENT: MEDIA QUERIES FOR RESPONSIVE RESPONSIVENESS
+   ========================================================================= */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column; /* Stacks form inputs vertically on small cell phone screens */
+        gap: 1.25rem;
+        margin-bottom: 0;
+    }
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+}
